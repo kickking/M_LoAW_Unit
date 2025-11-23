@@ -74,7 +74,6 @@ FString AGridDataCreator::FloatToString(double value, int32 MaximumFractionalDig
 	NumberFormatOptions.MinimumFractionalDigits = 0;
 	NumberFormatOptions.MaximumFractionalDigits = MaximumFractionalDigits;
 
-	//FText::AsNumber(value, &NumberFormatOptions);
 	return FText::AsNumber(value, &NumberFormatOptions).ToString();
 }
 

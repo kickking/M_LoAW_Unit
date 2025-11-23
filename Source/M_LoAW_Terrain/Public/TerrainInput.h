@@ -26,8 +26,6 @@ private:
 	bool RightHold = false;
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Custom|Input")
-	class UInputMappingContext* InputMapping;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|Input")
 	class UInputAction* MouseLeftHoldAction;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|Input")
@@ -62,7 +60,6 @@ private:
 	void BindDelegate();
 	bool GetTerrainGenerator();
 	bool EnablePlayer();
-	bool AddInputMappingContext();
 	bool BindEnchancedInputAction();
 	bool IsMouseClick();
 

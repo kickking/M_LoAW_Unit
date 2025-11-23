@@ -28,8 +28,7 @@ AGameGridInput::AGameGridInput()
 void AGameGridInput::BeginPlay()
 {
 	if (!GetGameInstance() || !GetGameGridGenerator() || !GetTerrainInput() || 
-		!EnablePlayer() || !AddInputMappingContext() ||
-		!BindEnchancedInputAction()) {
+		!EnablePlayer() || !BindEnchancedInputAction()) {
 		UE_LOG(GameGridInput, Warning, TEXT("AGameGridInput::BeginPlay() Error!"));
 		return;
 	}
@@ -96,25 +95,6 @@ bool AGameGridInput::EnablePlayer()
 	return false;
 }
 
-bool AGameGridInput::AddInputMappingContext()
-{
-	if (Controller) {
-		if (ULocalPlayer* LocalPlayer = Controller->GetLocalPlayer()) {
-			if (UEnhancedInputLocalPlayerSubsystem* InputSystem =
-				LocalPlayer->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>()) {
-				if (InputMapping != nullptr) {
-					InputSystem->AddMappingContext(InputMapping, 0);
-					return true;
-				}
-				else {
-					UE_LOG(GameGridInput, Warning, TEXT("No setting Input Mapping Context."));
-				}
-			}
-		}
-	}
-	UE_LOG(GameGridInput, Warning, TEXT("AddInputMappingContext error."));
-	return false;
-}
 
 bool AGameGridInput::BindEnchancedInputAction()
 {

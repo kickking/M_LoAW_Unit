@@ -167,7 +167,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|Tile", meta = (ClampMin = "0"))
 	int32 GridRange = 249;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|Tile", meta = (ClampMin = "0.0"))
-	float TileAltitudeMax = 10000.0f;
+	float TileAltitudeMax = 20000.0f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|Tile", meta = (ClampMin = "0.0"))
 	float UVScale = 1.0;
 

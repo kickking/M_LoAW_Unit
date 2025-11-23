@@ -10,6 +10,14 @@
 			"LoadingPhase": "Default"
 		},
 		{
+			"Name": "M_LoAW_Framework",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		},
+		{
 			"Name": "M_LoAW_GameGrid",
 			"Type": "Runtime",
 			"LoadingPhase": "Default",

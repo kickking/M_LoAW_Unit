@@ -6,7 +6,7 @@
 #include "Misc/MessageDialog.h"
 #include "ToolMenus.h"
 #include "Kismet/GameplayStatics.h"
-#include "DataCreator.h"
+#include "DataCreatorInterface.h"
 
 static const FName LoAW_GridDataCreatorTabName("LoAW_GridDataCreator");
 
@@ -48,11 +48,15 @@ void FLoAW_GridDataCreatorModule::ShutdownModule()
 void FLoAW_GridDataCreatorModule::PluginButtonClicked()
 {
 	TArray<AActor*> FoundActors;
-	FindActors(ADataCreator::StaticClass(), FoundActors);
+	FindActors(AActor::StaticClass(), FoundActors);
 	for (int32 i = 0; i < FoundActors.Num(); i++) {
-		ADataCreator* Creator = Cast<ADataCreator>(FoundActors[i]);
+		AActor* Creator = Cast<AActor>(FoundActors[i]);
 		if (Creator) {
-			Creator->CreateData();
+			if (Creator->GetClass()->ImplementsInterface(UDataCreatorInterface::StaticClass()))
+			{
+				IDataCreatorInterface* ICreator = Cast<IDataCreatorInterface>(Creator);
+				ICreator->CreateData();
+			}
 		}
 	}
 }

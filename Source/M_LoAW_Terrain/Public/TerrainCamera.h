@@ -24,34 +24,29 @@ private:
 	FVector BoundaryMin;
 	FVector BoundaryMax;
 
+	float AltitudeMultiplier = 0.f;
+
+	float TargetArmLength = -1.f;
+
 protected:
 	//Component
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
-	class USpringArmComponent* CameraBoom;
+	class USpringArmComponent* CameraSpringArm;
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
 	class UCameraComponent* Camera;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Custom|Input")
-	class UInputMappingContext* InputMapping;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|Input")
 	class UInputAction* CameraMoveAction;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|Input")
+	class UInputAction* CameraKeyMoveAction;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|Input")
 	class UInputAction* CameraRotateAction;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|Input")
+	class UInputAction* CameraKeyRotateAction;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|Input")
 	class UInputAction* CameraZoomInAction;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|Input")
 	class UInputAction* CameraZoomOutAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|MouseParam")
-	float MoveScalar = 2.5;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|MouseParam")
-	float RotateSpeed = 1.0;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|MouseParam")
-	float ZoomStep = 4000.0;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|MouseParam")
-	float ZoomMin = 10000.f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|MouseParam")
-	float ZoomMax = 200000.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Custom|Timer")
 	float TimingForWaitTerrain = 0.1;
@@ -74,14 +69,33 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Custom|ScrollScreen")
 	float ScrollDownLimitation = 0.99;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|Camera")
+	float MoveScalar = 2.5;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|Camera")
+	float KeyMoveScalar = 1.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|Camera")
+	float RotateSpeed = 1.0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|Camera")
+	float KeyRotateSpeed = 0.2;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|Camera")
+	float ZoomStep = 5000.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|Camera")
+	float ZoomMin = 20000.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|Camera")
+	float ZoomMinOffset = 2000.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|Camera")
+	float ZoomMax = 50000.f;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Custom|Camera")
 	float InitArmLength = 30000.0;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Custom|Camera")
-	float InitPitch = 16.0;
+	float CameraLagSpeed = 10.0;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Custom|Camera")
-	float ViewPitchMax = -10.0;
+	float CameraZoomSpeed = 10.0;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Custom|Camera")
-	float ViewPitchMin = -70.0;
+	float ViewPitchMax = -60.0;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Custom|Camera")
+	float ViewPitchMin = -80.0;
 
 public:
 	// Sets default values for this pawn's properties
@@ -92,22 +106,25 @@ private:
 
 	bool InitCamera();
 
-	bool BindEnchancedInputAction();
-
 	UFUNCTION()
 	void OnCameraMove(const FInputActionValue& Value);
 	UFUNCTION()
+	void OnCameraKeyMove(const FInputActionValue& Value);
+	UFUNCTION()
 	void OnCameraRotate(const FInputActionValue& Value);
+	UFUNCTION()
+	void OnCameraKeyRotate(const FInputActionValue& Value);
 	UFUNCTION()
 	void OnCameraZoomIn(const FInputActionValue& Value);
 	UFUNCTION()
 	void OnCameraZoomOut(const FInputActionValue& Value);
 
 	UFUNCTION()
-	void OnGetTerrainInput();
+	void OnTerrainInput();
 	UFUNCTION()
-	void OnGetTerrainInfo();
+	void OnTerrainInfo();
 	void FindActors(TSubclassOf<AActor> ActorClass, TArray<AActor*>& Actors);
+	void CalZoomMin();
 
 	UFUNCTION()
 	void OnScrollScreen();
@@ -119,7 +136,10 @@ private:
 	void ScrollDown();
 
 	void Move(FVector2D MouseMov);
+	void KeyMove(FVector2D KeyMov);
 	void OffsetByVector(FVector offset, float scalar);
+
+	void ChangeSpringArm(float DeltaTime);
 
 protected:
 	// Called when the game starts or when spawned

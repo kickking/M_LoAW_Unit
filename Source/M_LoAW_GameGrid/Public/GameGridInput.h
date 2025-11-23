@@ -26,8 +26,6 @@ private:
 	FTimerHandle CheckTimerHandle;
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Custom|Input")
-	class UInputMappingContext* InputMapping;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|Input")
 	class UInputAction* IncMouseOverRadiusAction;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom|Input")
@@ -52,7 +50,6 @@ private:
 	bool GetGameGridGenerator();
 	bool GetTerrainInput();
 	bool EnablePlayer();
-	bool AddInputMappingContext();
 	bool BindEnchancedInputAction();
 
 	void OnIncMouseOverRadius();

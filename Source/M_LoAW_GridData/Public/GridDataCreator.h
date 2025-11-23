@@ -3,9 +3,9 @@
 #pragma once
 
 #include "GridDataStructDefine.h"
+#include "DataCreatorInterface.h"
 
 #include "CoreMinimal.h"
-#include "DataCreator.h"
 #include "GridDataCreator.generated.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(GridDataCreator, Log, All);
@@ -25,7 +25,7 @@ enum class Enum_GridDataCreatorState : uint8
 };
 
 UCLASS()
-class M_LOAW_GRIDDATA_API AGridDataCreator : public ADataCreator
+class M_LOAW_GRIDDATA_API AGridDataCreator : public AActor, public IDataCreatorInterface
 {
 	GENERATED_BODY()
 
@@ -87,6 +87,7 @@ public:
 	AGridDataCreator();
 
 	virtual void CreateData() override;
+
 
 	UFUNCTION(BlueprintCallable)
 	void GetProgress(float& Out_Progress);

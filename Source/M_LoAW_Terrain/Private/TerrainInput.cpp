@@ -53,26 +53,6 @@ bool ATerrainInput::EnablePlayer()
 	return false;
 }
 
-bool ATerrainInput::AddInputMappingContext()
-{
-	if (Controller) {
-		if (ULocalPlayer* LocalPlayer = Controller->GetLocalPlayer()) {
-			if (UEnhancedInputLocalPlayerSubsystem* InputSystem =
-				LocalPlayer->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>()) {
-				if (InputMapping != nullptr) {
-					InputSystem->AddMappingContext(InputMapping, 0);
-					return true;
-				}
-				else {
-					UE_LOG(TerrainInput, Warning, TEXT("No setting Input Mapping Context."));
-				}
-			}
-		}
-	}
-	UE_LOG(TerrainInput, Warning, TEXT("AddInputMappingContext error."));
-	return false;
-}
-
 bool ATerrainInput::BindEnchancedInputAction()
 {
 	if (InputComponent) {
@@ -112,6 +92,7 @@ void ATerrainInput::OnLeftHoldStarted(const FInputActionValue& Value)
 {
 	if (IsMouseClick()) {
 		LeftHold = true;
+		RightHold = false;
 	}
 }
 
@@ -126,6 +107,7 @@ void ATerrainInput::OnRightHoldStarted(const FInputActionValue& Value)
 {
 	if (IsMouseClick()) {
 		RightHold = true;
+		LeftHold = false;
 	}
 }
 
@@ -169,8 +151,7 @@ void ATerrainInput::UpdateMousePosition()
 void ATerrainInput::BeginPlay()
 {
 	Super::BeginPlay();
-	if (!GetTerrainGenerator() || !EnablePlayer() || !AddInputMappingContext() || 
-		!BindEnchancedInputAction()) {
+	if (!GetTerrainGenerator() || !EnablePlayer() || !BindEnchancedInputAction()) {
 		UE_LOG(TerrainInput, Warning, TEXT("ATerrainInput::BeginPlay() Error!"));
 	}
 

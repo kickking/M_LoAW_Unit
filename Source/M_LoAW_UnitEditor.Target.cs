@@ -11,6 +11,7 @@ public class M_LoAW_UnitEditorTarget : TargetRules
 		DefaultBuildSettings = BuildSettingsVersion.V5;
 		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_6;
 		ExtraModuleNames.Add("M_LoAW_Unit");
+        ExtraModuleNames.Add("M_LoAW_Framework");
         ExtraModuleNames.Add("M_LoAW_GameGrid");
         ExtraModuleNames.Add("M_LoAW_GridData");
         ExtraModuleNames.Add("M_LoAW_Terrain");
